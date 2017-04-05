@@ -20,7 +20,7 @@
 			<form action="connexion.php" method="POST">
 
 				<label for="pseudo">Pseudo</label>
-				<input type="texte" name="pseudo" id="pseudo" size="15"/><br/>
+				<input type="text" name="pseudo" id="pseudo" size="15"/><br/>
 
 				<label for="mot_de_passe">Mot de passe</label>
 				<input type="password" name="password" id="mot_de_passe" size="15"/><br/>
