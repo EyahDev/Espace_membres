@@ -6,17 +6,22 @@
 		die('Erreur : ' . $e->getMessage());
 	}
 
+	// Déclaration des variables vide pour le fonctionnement de la page
+	$erreurPseudo = false;
+
 	// Vérification du pseudo
 
-	if (isset($_POST['pseudo'])) {
+	if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['passwordVerif'])) {
 		
 		// vérification du pseudo dans la base de donneés
 		$reqPseudo = $bdd->prepare('SELECT pseudo FROM espace_membres WHERE pseudo = ?');
 		$reqPseudo->execute(array(htmlspecialchars($_POST['pseudo'])));
 		$verifPseudo = $reqPseudo->fetch();
 
-		if ($_POST['pseudo'] == $verifPseudo) {
-			echo "<p style=\"color: red;\">Ce pseudo existe déjà !</p>";
+		if ($_POST['pseudo'] == $verifPseudo['pseudo']) {
+			$erreurPseudo = "<p style=\"color: red;\">Ce pseudo existe déjà !</p>";
+		} else {
+			echo "<p style=\"color: red;\">Ce pseudo existe pas !</p>";
 		}
 	}
 ?>
@@ -32,6 +37,7 @@
 		<div id="contenu_inscription">
 			<form action="inscription.php" method="POST">
 				<h3>Formulaire d'inscription à l'espace membres</h3>
+				<?php echo $erreurPseudo; ?>
 
 				<label class="lab_inscription" for="pseudo">Votre pseudo</label>
 				<input type="text" name="pseudo" required/><br/>
