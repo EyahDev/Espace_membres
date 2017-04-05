@@ -11,7 +11,11 @@
 	$erreurMail = false;
 	$erreurMdp = false;
 	$confirmationInscription = false;
-
+	// Vérification si une session est ouverte
+	session_start();
+	if (isset($_SESSION['connecte']) && $_SESSION['connecte'] == true) {
+		header('location: mon_compte.php');
+	}
 	// Vérification si les champs sont définis
 
 	if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['passwordVerif'])) {
@@ -43,10 +47,10 @@
 				'password' => $pass_hache,
 				'email' => htmlspecialchars(strtolower($_POST['email']))
 			));
+			$reqEcriture->closeCursor();
 			$confirmationInscription = "<p style=\"color: Green;\">L'inscription s'est bien passé !<br/><a href=\"connexion.php\">Connectez vous</a></p>";
 		}
 	}
-
 ?>
 
 <!DOCTYPE html>

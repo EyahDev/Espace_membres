@@ -1,5 +1,5 @@
 <?php
-	// Gestion des erreurs de formulaires
+	// Gestion des erreurs de formulaires de la page d'inscription
 	// Si tout est KO
 	if (($_POST['pseudo'] == $verifPseudo['pseudo']) && ($_POST['email'] == $verifMail['email']) && ($_POST['password'] != $_POST['passwordVerif'])) {
 
@@ -34,4 +34,5 @@
 	} elseif (($_POST['password'] != $_POST['passwordVerif'])) {
 		$erreurMdp = "<p style=\"color: red;\">Les mots de passe ne correspondent pas !</p>";
 	}
+
 ?>
