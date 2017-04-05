@@ -8,22 +8,28 @@
 
 	// Déclaration des variables vide pour le fonctionnement de la page
 	$erreurPseudo = false;
+	$erreurMail = false;
+	$erreurMdp = false;
 
 	// Vérification du pseudo
 
 	if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['passwordVerif'])) {
 		
-		// vérification du pseudo dans la base de donneés
-		$reqPseudo = $bdd->prepare('SELECT pseudo FROM espace_membres WHERE pseudo = ?');
+		// vérification du  mail dans la base de donneés
+		$reqPseudo = $bdd->prepare('SELECT pseudo FROM espace_membres WHERE pseudo = ? ');
 		$reqPseudo->execute(array(htmlspecialchars($_POST['pseudo'])));
 		$verifPseudo = $reqPseudo->fetch();
+		$reqPseudo->closeCursor();
 
-		if ($_POST['pseudo'] == $verifPseudo['pseudo']) {
-			$erreurPseudo = "<p style=\"color: red;\">Ce pseudo existe déjà !</p>";
-		} else {
-			echo "<p style=\"color: red;\">Ce pseudo existe pas !</p>";
-		}
+		// vérification du mail dans la base de donneés
+		$reqMail = $bdd->prepare('SELECT email FROM espace_membres WHERE email = ? ');
+		$reqMail->execute(array(htmlspecialchars($_POST['email'])));
+		$verifMail = $reqMail->fetch();
+		$reqMail->closeCursor();
+
+		include 'erreur.php';
 	}
+
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +44,8 @@
 			<form action="inscription.php" method="POST">
 				<h3>Formulaire d'inscription à l'espace membres</h3>
 				<?php echo $erreurPseudo; ?>
+				<?php echo $erreurMail; ?>
+				<?php echo $erreurMdp; ?>
 
 				<label class="lab_inscription" for="pseudo">Votre pseudo</label>
 				<input type="text" name="pseudo" required/><br/>
@@ -51,7 +59,7 @@
 				<label class="lab_inscription" for="passwordVerif">Vérification du mot de passe</label>
 				<input type="password" name="passwordVerif" required/><br/>
 				
-				<input type="submit" name="envoyer" value="Inscription"/>		
+				<input type="submit" name="envoyer" value="Inscription"/>
 			</form>
 		</div>
 	</body>
